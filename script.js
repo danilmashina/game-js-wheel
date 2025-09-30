@@ -3,6 +3,7 @@ const znak = document.getElementById("znak");
 const scoreElement = document.getElementById("score");
 const gameOverElement = document.getElementById("gameOver");
 const restartBtn = document.getElementById("restartBtn");
+const finalScoreElement = document.getElementById("finalScore");
 
 let score = 0;
 let gameRunning = true;
@@ -65,6 +66,9 @@ function gameOver() {
     gameRunning = false;
     clearInterval(gameLoop);
     znak.style.animationPlayState = "paused";
+    
+    // Отображаем финальный счет
+    finalScoreElement.textContent = score;
     gameOverElement.style.display = "block";
     
     // Сохраняем лучший результат
