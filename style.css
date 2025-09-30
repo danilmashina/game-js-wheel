@@ -13,6 +13,7 @@ body {
 	align-items: center;
 	justify-content: center;
 	color: #333;
+	overflow-x: hidden;
 }
 
 .header {
@@ -20,28 +21,45 @@ body {
 	margin-bottom: 20px;
 	color: white;
 	text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+	animation: headerPulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes headerPulse {
+	from { 
+		text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 10px rgba(255,255,255,0.3); 
+		transform: scale(1);
+	}
+	to { 
+		text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 20px rgba(255,255,255,0.6); 
+		transform: scale(1.05);
+	}
 }
 
 .header h1 {
 	font-size: 2.5rem;
 	margin-bottom: 15px;
-	animation: glow 2s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-	from { text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 10px rgba(255,255,255,0.3); }
-	to { text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 20px rgba(255,255,255,0.6); }
+	font-weight: 700;
+	letter-spacing: 2px;
 }
 
 #score, #bestScore {
-	font-size: 1.2rem;
+	font-size: 1.3rem;
 	background: rgba(255,255,255,0.2);
-	padding: 8px 16px;
+	padding: 10px 18px;
 	border-radius: 25px;
-	margin: 5px;
+	margin: 8px;
 	display: inline-block;
 	backdrop-filter: blur(10px);
-	border: 1px solid rgba(255,255,255,0.3);
+	border: 2px solid rgba(255,255,255,0.3);
+	transition: all 0.3s ease;
+	font-weight: 600;
+	text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+#score:hover, #bestScore:hover {
+	background: rgba(255,255,255,0.3);
+	transform: translateY(-2px);
+	box-shadow: 0 5px 15px rgba(255,255,255,0.2);
 }
 
 .game {
@@ -51,9 +69,26 @@ body {
 	margin: 20px auto;
 	position: relative;
 	background: linear-gradient(to bottom, #87CEEB 0%, #98FB98 50%, #8FBC8F 100%);
-	border-radius: 10px 10px 0 0;
+	border-radius: 15px 15px 0 0;
 	box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 	overflow: hidden;
+	transition: all 0.3s ease;
+}
+
+.game::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 20px;
+	background: linear-gradient(to right, rgba(255,255,255,0.3) 0%, transparent 50%, rgba(255,255,255,0.3) 100%);
+	animation: skyShine 4s ease-in-out infinite;
+}
+
+@keyframes skyShine {
+	0%, 100% { opacity: 0.3; }
+	50% { opacity: 0.7; }
 }
 
 #koleso {
@@ -64,7 +99,14 @@ body {
 	position: relative;
 	top: 150px;
 	transition: all 0.1s ease;
-	filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+	filter: drop-shadow(3px 3px 6px rgba(0,0,0,0.4));
+	border-radius: 50%;
+	animation: wheelRotate 1s linear infinite;
+}
+
+@keyframes wheelRotate {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(360deg); }
 }
 
 #znak {
@@ -74,44 +116,51 @@ body {
 	background-size: 20px 40px;
 	position: relative;
 	top: 110px;
-	left: 580px;
+	left: 650px;
 	animation: znakMov 1s infinite linear;
-	filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3));
+	filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.4));
+	transition: all 0.1s ease;
 }
 
 @keyframes znakMov {
 	0% {
 		left: 650px;
+		transform: scaleX(1);
+	}
+	50% {
+		transform: scaleX(0.95);
 	}
 	100% {
 		left: -30px;
+		transform: scaleX(1);
 	}
 }
 
 .jump {
-	animation: jump 0.5s ease-out;
+	animation: jump 0.5s ease-out !important;
 }
 
 @keyframes jump {
 	0% {
 		top: 150px;
-		transform: rotate(0deg);
+		transform: rotate(0deg) scale(1);
 	}
 	25% {
 		top: 130px;
-		transform: rotate(-10deg);
+		transform: rotate(-15deg) scale(1.1);
 	}
 	50% {
-		top: 80px;
-		transform: rotate(-20deg);
+		top: 70px;
+		transform: rotate(-30deg) scale(1.2);
+		filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.5));
 	}
 	75% {
 		top: 130px;
-		transform: rotate(-10deg);
+		transform: rotate(-15deg) scale(1.1);
 	}
 	100% {
 		top: 150px;
-		transform: rotate(0deg);
+		transform: rotate(0deg) scale(1);
 	}
 }
 
@@ -120,86 +169,150 @@ body {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	background: rgba(0,0,0,0.9);
+	background: linear-gradient(145deg, rgba(0,0,0,0.95), rgba(30,30,30,0.95));
 	color: white;
-	padding: 30px;
-	border-radius: 15px;
+	padding: 35px;
+	border-radius: 20px;
 	text-align: center;
 	z-index: 1000;
-	backdrop-filter: blur(10px);
-	border: 2px solid rgba(255,255,255,0.2);
-	box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-	animation: slideIn 0.5s ease-out;
+	backdrop-filter: blur(15px);
+	border: 3px solid rgba(255,255,255,0.2);
+	box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+	animation: gameOverSlide 0.6s ease-out;
+	max-width: 90%;
 }
 
-@keyframes slideIn {
-	from {
+@keyframes gameOverSlide {
+	0% {
 		opacity: 0;
-		transform: translate(-50%, -60%);
+		transform: translate(-50%, -70%) scale(0.8);
 	}
-	to {
+	50% {
+		transform: translate(-50%, -45%) scale(1.05);
+	}
+	100% {
 		opacity: 1;
-		transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%) scale(1);
 	}
 }
 
 .game-over h2 {
-	font-size: 2rem;
-	margin-bottom: 15px;
+	font-size: 2.2rem;
+	margin-bottom: 20px;
 	color: #ff6b6b;
-	text-shadow: 0 0 10px rgba(255,107,107,0.5);
+	text-shadow: 0 0 15px rgba(255,107,107,0.6);
+	animation: titleGlow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+	from { text-shadow: 0 0 15px rgba(255,107,107,0.6); }
+	to { text-shadow: 0 0 25px rgba(255,107,107,0.8), 0 0 35px rgba(255,107,107,0.4); }
 }
 
 .game-over p {
-	font-size: 1.2rem;
-	margin: 10px 0;
+	font-size: 1.3rem;
+	margin: 15px 0;
+	font-weight: 500;
 }
 
 .restart-btn {
-	background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+	background: linear-gradient(45deg, #ff6b6b, #ee5a24, #ff7675);
 	color: white;
 	border: none;
-	padding: 12px 24px;
-	font-size: 1.1rem;
-	border-radius: 25px;
+	padding: 15px 30px;
+	font-size: 1.2rem;
+	border-radius: 30px;
 	cursor: pointer;
-	margin: 15px 0;
+	margin: 20px 0;
 	transition: all 0.3s ease;
-	box-shadow: 0 4px 15px rgba(238,90,36,0.3);
+	box-shadow: 0 6px 20px rgba(238,90,36,0.4);
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	position: relative;
+	overflow: hidden;
+}
+
+.restart-btn::before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 0;
+	height: 0;
+	background: rgba(255,255,255,0.3);
+	border-radius: 50%;
+	transition: all 0.6s ease;
+	transform: translate(-50%, -50%);
+}
+
+.restart-btn:hover::before {
+	width: 300px;
+	height: 300px;
 }
 
 .restart-btn:hover {
-	transform: translateY(-2px);
-	box-shadow: 0 6px 20px rgba(238,90,36,0.4);
-	background: linear-gradient(45deg, #ee5a24, #ff6b6b);
+	transform: translateY(-3px);
+	box-shadow: 0 8px 25px rgba(238,90,36,0.5);
+	background: linear-gradient(45deg, #ee5a24, #ff6b6b, #fd79a8);
 }
 
 .restart-btn:active {
-	transform: translateY(0);
+	transform: translateY(-1px);
+	box-shadow: 0 4px 15px rgba(238,90,36,0.4);
 }
 
 .controls {
-	font-size: 0.9rem;
-	color: #ccc;
-	margin-top: 10px;
+	font-size: 0.95rem;
+	color: #bbb;
+	margin-top: 15px;
+	font-style: italic;
 }
 
 .instructions {
-	margin-top: 20px;
+	margin-top: 25px;
 	text-align: center;
 	color: white;
 	background: rgba(255,255,255,0.1);
-	padding: 20px;
-	border-radius: 15px;
-	backdrop-filter: blur(10px);
-	border: 1px solid rgba(255,255,255,0.2);
+	padding: 25px;
+	border-radius: 20px;
+	backdrop-filter: blur(15px);
+	border: 2px solid rgba(255,255,255,0.2);
 	max-width: 650px;
+	box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+	transition: all 0.3s ease;
+}
+
+.instructions:hover {
+	background: rgba(255,255,255,0.15);
+	transform: translateY(-2px);
+	box-shadow: 0 12px 30px rgba(0,0,0,0.25);
 }
 
 .instructions p {
-	margin: 8px 0;
-	font-size: 1rem;
-	line-height: 1.5;
+	margin: 12px 0;
+	font-size: 1.1rem;
+	line-height: 1.6;
+	font-weight: 500;
+	text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.instructions strong {
+	color: #FFD700;
+	text-shadow: 0 0 8px rgba(255,215,0,0.5);
+}
+
+/* Эффекты тряски и анимации */
+@keyframes shake {
+	0%, 100% { transform: translateX(0); }
+	10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+	20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes fadeInOut {
+	0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+	50% { opacity: 1; transform: translate(-50%, -50%) scale(1.3); }
+	100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
 }
 
 /* Адаптивность */
@@ -207,6 +320,21 @@ body {
 	.game {
 		width: 90vw;
 		max-width: 500px;
+		height: 160px;
+	}
+	
+	#koleso {
+		width: 40px;
+		height: 40px;
+		background-size: 40px 40px;
+		top: 120px;
+	}
+	
+	#znak {
+		width: 16px;
+		height: 32px;
+		background-size: 16px 32px;
+		top: 88px;
 	}
 	
 	.header h1 {
@@ -215,20 +343,68 @@ body {
 	
 	#score, #bestScore {
 		font-size: 1rem;
-		padding: 6px 12px;
+		padding: 8px 14px;
+		margin: 5px;
 	}
 	
 	.instructions {
 		margin: 20px;
-		padding: 15px;
+		padding: 20px;
+		font-size: 0.9rem;
 	}
 	
 	.game-over {
-		padding: 20px;
-		margin: 0 20px;
+		padding: 25px;
+		margin: 0 15px;
+	}
+	
+	.game-over h2 {
+		font-size: 1.8rem;
+	}
+	
+	.restart-btn {
+		padding: 12px 24px;
+		font-size: 1rem;
+	}
+}
+
+@media (max-width: 480px) {
+	body {
+		padding: 10px;
+	}
+	
+	.header h1 {
+		font-size: 1.6rem;
+	}
+	
+	.game {
+		height: 140px;
+	}
+	
+	#koleso {
+		width: 35px;
+		height: 35px;
+		background-size: 35px 35px;
+		top: 105px;
+	}
+	
+	#znak {
+		width: 14px;
+		height: 28px;
+		background-size: 14px 28px;
+		top: 77px;
+	}
+	
+	#score, #bestScore {
+		font-size: 0.9rem;
+		padding: 6px 12px;
 	}
 	
 	.game-over h2 {
 		font-size: 1.5rem;
+	}
+	
+	.instructions p {
+		font-size: 0.95rem;
 	}
 }
