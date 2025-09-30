@@ -1,9 +1,59 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: #333;
+}
+
+.header {
+	text-align: center;
+	margin-bottom: 20px;
+	color: white;
+	text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.header h1 {
+	font-size: 2.5rem;
+	margin-bottom: 15px;
+	animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+	from { text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 10px rgba(255,255,255,0.3); }
+	to { text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 20px rgba(255,255,255,0.6); }
+}
+
+#score, #bestScore {
+	font-size: 1.2rem;
+	background: rgba(255,255,255,0.2);
+	padding: 8px 16px;
+	border-radius: 25px;
+	margin: 5px;
+	display: inline-block;
+	backdrop-filter: blur(10px);
+	border: 1px solid rgba(255,255,255,0.3);
+}
 
 .game {
 	width: 650px;
 	height: 200px;
 	border-bottom: 4px solid #230606;
-	margin: auto;
+	margin: 20px auto;
+	position: relative;
+	background: linear-gradient(to bottom, #87CEEB 0%, #98FB98 50%, #8FBC8F 100%);
+	border-radius: 10px 10px 0 0;
+	box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+	overflow: hidden;
 }
 
 #koleso {
@@ -13,6 +63,8 @@
 	background-size: 50px 50px;
 	position: relative;
 	top: 150px;
+	transition: all 0.1s ease;
+	filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
 }
 
 #znak {
@@ -24,39 +76,159 @@
 	top: 110px;
 	left: 580px;
 	animation: znakMov 1s infinite linear;
+	filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3));
 }
 
 @keyframes znakMov {
 	0% {
-		left: 580px;
+		left: 650px;
 	}
 	100% {
-		left: -20px;
+		left: -30px;
 	}
 }
-	.jump {
-		animation: jump 0.5s ;
-	}
 
+.jump {
+	animation: jump 0.5s ease-out;
+}
 
 @keyframes jump {
 	0% {
 		top: 150px;
+		transform: rotate(0deg);
 	}
-	30% {
+	25% {
 		top: 130px;
+		transform: rotate(-10deg);
 	}
 	50% {
 		top: 80px;
+		transform: rotate(-20deg);
 	}
-	80% {
+	75% {
 		top: 130px;
+		transform: rotate(-10deg);
 	}
-
-    100% {
-	    top: 150px;
-    }
-
+	100% {
+		top: 150px;
+		transform: rotate(0deg);
+	}
 }
 
+.game-over {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: rgba(0,0,0,0.9);
+	color: white;
+	padding: 30px;
+	border-radius: 15px;
+	text-align: center;
+	z-index: 1000;
+	backdrop-filter: blur(10px);
+	border: 2px solid rgba(255,255,255,0.2);
+	box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+	animation: slideIn 0.5s ease-out;
+}
 
+@keyframes slideIn {
+	from {
+		opacity: 0;
+		transform: translate(-50%, -60%);
+	}
+	to {
+		opacity: 1;
+		transform: translate(-50%, -50%);
+	}
+}
+
+.game-over h2 {
+	font-size: 2rem;
+	margin-bottom: 15px;
+	color: #ff6b6b;
+	text-shadow: 0 0 10px rgba(255,107,107,0.5);
+}
+
+.game-over p {
+	font-size: 1.2rem;
+	margin: 10px 0;
+}
+
+.restart-btn {
+	background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+	color: white;
+	border: none;
+	padding: 12px 24px;
+	font-size: 1.1rem;
+	border-radius: 25px;
+	cursor: pointer;
+	margin: 15px 0;
+	transition: all 0.3s ease;
+	box-shadow: 0 4px 15px rgba(238,90,36,0.3);
+}
+
+.restart-btn:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 6px 20px rgba(238,90,36,0.4);
+	background: linear-gradient(45deg, #ee5a24, #ff6b6b);
+}
+
+.restart-btn:active {
+	transform: translateY(0);
+}
+
+.controls {
+	font-size: 0.9rem;
+	color: #ccc;
+	margin-top: 10px;
+}
+
+.instructions {
+	margin-top: 20px;
+	text-align: center;
+	color: white;
+	background: rgba(255,255,255,0.1);
+	padding: 20px;
+	border-radius: 15px;
+	backdrop-filter: blur(10px);
+	border: 1px solid rgba(255,255,255,0.2);
+	max-width: 650px;
+}
+
+.instructions p {
+	margin: 8px 0;
+	font-size: 1rem;
+	line-height: 1.5;
+}
+
+/* Адаптивность */
+@media (max-width: 700px) {
+	.game {
+		width: 90vw;
+		max-width: 500px;
+	}
+	
+	.header h1 {
+		font-size: 2rem;
+	}
+	
+	#score, #bestScore {
+		font-size: 1rem;
+		padding: 6px 12px;
+	}
+	
+	.instructions {
+		margin: 20px;
+		padding: 15px;
+	}
+	
+	.game-over {
+		padding: 20px;
+		margin: 0 20px;
+	}
+	
+	.game-over h2 {
+		font-size: 1.5rem;
+	}
+}
