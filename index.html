@@ -1,18 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<title>Игра Колесо - Прыжки через препятствия</title>
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
+	<div class="header">
+		<h1>🎮 Игра Колесо</h1>
+		<div id="score">Счет: 0</div>
+		<div id="bestScore">Лучший результат: 0</div>
+	</div>
 
-	<div  class="game"> 
+	<div class="game"> 
 		<div id="koleso"></div>
 		<div id="znak"></div>
-
+		
+		<!-- Экран окончания игры -->
+		<div id="gameOver" class="game-over" style="display: none;">
+			<h2>💥 ИГРА ОКОНЧЕНА!</h2>
+			<p>Ваш счет: <span id="finalScore"></span></p>
+			<button id="restartBtn" class="restart-btn">🔄 Играть снова</button>
+			<p class="controls">Нажмите ПРОБЕЛ или кликните для прыжка</p>
+		</div>
 	</div>
+
+	<div class="instructions">
+		<p>🎯 <strong>Управление:</strong> Нажмите ПРОБЕЛ, стрелку вверх или кликните мышью для прыжка</p>
+		<p>🎮 <strong>Цель:</strong> Избегайте препятствий и набирайте очки!</p>
+	</div>
+
 	<script src="script.js"></script>
 </body>
 </html>
